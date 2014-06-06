@@ -81,20 +81,8 @@ module DictionaryRB
     def synonyms
       @doc ||= Nokogiri::HTML(open(PREFIX + CGI::escape(@word)))
 
-      nodes = [@doc.css('.luna-Ent .tail')]
-      (nodes ||= []).push(@doc.css(".td3n2")).flatten!
-      results = nodes.map(&:text).map do |result|
-        result.split ':'
-      end
-      syn = ""
-      results.each do |x|
-        index = x.index{|s| s =~ /Synonyms/}
-        if(index)
-          syn = x[index].split(/Synonyms/)[1]
-          break
-        end
-      end
-      @synonyms = syn.strip
+      @synonyms ||= @doc.css('.sE').map{ |x| x.text.strip }.reject(&:empty?).flatten
+      @synonyms #to prevent above computations on repeated call on object
     end
 
     def antonyms
