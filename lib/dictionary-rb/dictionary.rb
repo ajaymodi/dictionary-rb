@@ -80,8 +80,7 @@ module DictionaryRB
 
     def synonyms
       @doc ||= Nokogiri::HTML(open(PREFIX + CGI::escape(@word)))
-
-      @synonyms ||= @doc.css('#synonym .sE').map{ |x| x.text.strip }.reject(&:empty?).flatten
+      @synonyms ||= @doc.css('.tail-type-synonyms .tail-content').map{ |x| x.text.strip }.reject(&:empty?).flatten
       @synonyms #to prevent above computations on repeated call on object
     end
 
