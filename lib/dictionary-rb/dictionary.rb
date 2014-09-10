@@ -83,6 +83,10 @@ module DictionaryRB
       @synonyms ||= @doc.css('.tail-type-synonyms .tail-content').map{ |x| x.text.strip }.reject(&:empty?).flatten
       @synonyms #to prevent above computations on repeated call on object
     end
+    
+    def synonyms_test
+      @doc ||= Nokogiri::HTML(open(PREFIX + CGI::escape(@word)))
+    end
 
     def antonyms
       @doc ||= Nokogiri::HTML(open(PREFIX + CGI::escape(@word)))
