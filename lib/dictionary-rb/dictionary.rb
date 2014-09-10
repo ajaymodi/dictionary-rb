@@ -86,7 +86,12 @@ module DictionaryRB
     
     def synonyms_test
       @doc ||= Nokogiri::HTML(open(PREFIX + CGI::escape(@word)))
-      @synonyms ||= @doc.css('.tail-type-synonyms .tail-content')
+      @synonyms ||= @doc.css('.tail-type-synonyms .tail-content').map{ |x| x.text.strip }
+    end
+    
+    def synonyms_test_2
+      @doc ||= Nokogiri::HTML(open(PREFIX + CGI::escape(@word)))
+      @synonyms ||= @doc.css('.tail-type-synonyms .tail-content').map{ |x| x.text.strip }
     end
 
     def antonyms
